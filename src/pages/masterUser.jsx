@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Table, {
-  AvatarCell,
-  SelectColumnFilter,
-  StatusPill,
-} from 'components/Table';
+import Table from 'components/Table';
 import 'styles/maestroUsuario.scss';
 import { getUsers } from '../utils/api';
 
@@ -13,16 +9,20 @@ const MasterUser = () => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Email',
-        accessor: 'email',
+        Header: 'Nombre',
+        accessor: 'usu_nombre',
+      },
+      {
+        Herader: 'Apellido',
+        accessor: 'usu_apellido',
       },
       {
         Header: 'Rol',
-        accessor: 'idRol',
+        accessor: 'nombre_rol',
       },
       {
         Header: 'Estado',
-        accessor: 'idEstado',
+        accessor: 'idEstadoToString',
       },
     ],
     []
