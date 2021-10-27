@@ -28,6 +28,19 @@ export async function getUsers() {
   }
 }
 
+export async function getSales() {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: 'http://localhost:8080/ventas',
+    });
+    console.log('API connection data', response.data);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 /*
 export const getProducts = async () => {
   const options = { method: 'GET', url: 'http://localhost:8080/productos' };
@@ -94,5 +107,33 @@ export const createUsers = async (data) => {
     .catch(function (error) {
       console.error(error);
       toast.error('Error al crear producto. Intenta de nuevo.');
+    });
+};
+
+export const createSales = async (data) => {
+  const options = {
+    method: 'POST',
+    url: 'http://localhost:8080/ventas/create',
+    headers: { 'Content-Type': 'application/json' },
+    data: {
+      idProduct: data.idProduct,
+      product_quantity: data.product_quantity,
+      total_sale: data.total_sale,
+      idClient: data.idClient,
+      idSalesman: data.idSalesman,
+    },
+  };
+  console.log('Options');
+
+  await axios
+    .request(options)
+    .then(function (response) {
+      console.log('Response data: ', response.data);
+      console.log('Response data: ', options);
+      toast.success('Venta creada con éxito.');
+    })
+    .catch(function (error) {
+      console.error(error);
+      toast.error('Error al crear la venta. Intenta de nuevo.');
     });
 };

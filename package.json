@@ -1,5 +1,5 @@
 {
-  "name": "mi-aplicacion",
+  "name": "Proyecto-Tienda",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -39,7 +39,6 @@
     "autoprefixer": "^9",
     "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
-
   },
   "scripts": {
     "start": "craco start",
@@ -65,7 +64,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    
-  }
+  "devDependencies": {}
 }

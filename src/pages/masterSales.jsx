@@ -1,117 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from 'components/Table';
 import { useGlobalFilter } from 'react-table';
-
-const data = [
-  {
-    idVenta: '123',
-    nombreCliente: 'Jane Cooper',
-    idCliente: '123456',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '745.900',
-    fecha: '01-10-2021',
-  },
-  {
-    idVenta: '456',
-    nombreCliente: 'Cody Fisher',
-    idCliente: '745835',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '445.900',
-    fecha: '01-10-2021',
-  },
-  {
-    idVenta: '789',
-    nombreCliente: 'Esther Howard',
-    idCliente: '213594',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '44.900',
-    fecha: '01-10-2021',
-  },
-  {
-    idVenta: '174',
-    nombreCliente: 'Jenny Wilson',
-    idCliente: '238543',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '4.900',
-    fecha: '01-10-2021',
-  },
-  {
-    idVenta: '749',
-    nombreCliente: 'Kristin Watson',
-    idCliente: '749528',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '1.344.900',
-    fecha: '01-10-2021',
-  },
-  {
-    idVenta: '749',
-    nombreCliente: 'Kristin Watson',
-    idCliente: '749528',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '1.344.900',
-    fecha: '01-10-2021',
-  },
-  {
-    idVenta: '749',
-    nombreCliente: 'Kristin Watson',
-    idCliente: '749528',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '1.344.900',
-    fecha: '01-10-2021',
-  },
-  {
-    idVenta: '749',
-    nombreCliente: 'Kristin Watson',
-    idCliente: '749528',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '1.344.900',
-    fecha: '01-10-2021',
-  },
-  {
-    idVenta: '749',
-    nombreCliente: 'Kristin Watson',
-    idCliente: '749528',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '1.344.900',
-    fecha: '01-10-2021',
-  },
-  {
-    idVenta: '749',
-    nombreCliente: 'Kristin Watson',
-    idCliente: '749528',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '1.344.900',
-    fecha: '01-10-2021',
-  },
-  {
-    idVenta: '749',
-    nombreCliente: 'Kristin Watson',
-    idCliente: '749528',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '1.344.900',
-    fecha: '01-10-2021',
-  },
-  {
-    idVenta: '749',
-    nombreCliente: 'Kristin Watson',
-    idCliente: '749528',
-    nombreVendedor: 'Theodore John',
-    totalVenta: '1.344.900',
-    fecha: '01-10-2021',
-  },
-];
+import { getSales } from 'utils/api';
 
 function MasterSales() {
+  const [sales, setSales] = useState([]);
+
   const columns = React.useMemo(
     () => [
       {
         Header: 'ID Venta',
-        accessor: 'idVenta',
+        accessor: '_id',
         filter: useGlobalFilter,
       },
       {
         Header: 'Nombre cliente',
-        accessor: 'nombreCliente',
+        accessor: 'cliente',
       },
       {
         Header: 'ID cliente',
@@ -119,21 +23,29 @@ function MasterSales() {
       },
       {
         Header: 'Nombre vendedor',
-        accessor: 'nombreVendedor',
+        accessor: 'vendedor',
       },
       {
         Header: 'Total venta',
-        accessor: 'totalVenta',
+        accessor: 'total_venta',
       },
       {
         Header: 'Fecha',
-        accessor: 'fecha',
+        accessor: 'created_at',
       },
     ],
     []
   );
 
-  //const data = React.useMemo(() => getData(), []);
+  useEffect(() => {
+    async function loadSales() {
+      const response = await getSales();
+      if (response.status === 200) {
+        setSales(response.data);
+      }
+    }
+    loadSales();
+  }, []);
 
   return (
     <div className='product-container-usu'>
@@ -151,7 +63,7 @@ function MasterSales() {
         <div className='container-reg asd'>
           <div className='column'>
             <div className='mt-7'>
-              <Table columns={columns} data={data} />
+              <Table columns={columns} data={sales} />
             </div>
           </div>
         </div>

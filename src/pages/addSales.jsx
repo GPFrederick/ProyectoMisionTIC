@@ -1,8 +1,24 @@
+import React, { useRef } from 'react';
+import { createSales } from 'utils/api';
 import 'styles/addSales.scss';
-
-import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddSales = () => {
+  const form = useRef(null);
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const fd = new FormData(form.current);
+
+    const newProduct = {};
+    fd.forEach((value, key) => {
+      newProduct[key] = value;
+    });
+    console.log('Datos del formulario: ', newProduct);
+    createSales(newProduct);
+  };
+
   return (
     <div className='product-container'>
       <div className='md:flex flex-col h-screen items-center justify-center rounded-3xl ml-5 mt-5 product-div'>
@@ -10,31 +26,34 @@ const AddSales = () => {
           <h1 className='flex justify-center font-bold text-2xl text-gray-800 p-2'>
             Agregar venta
           </h1>
-          <form className='flex flex-col mt-10 mb-5'>
+          <form
+            ref={form}
+            onSubmit={submitForm}
+            className='flex flex-col mt-10 mb-5'
+          >
             <div className='md:flex justify-between mb-2'>
               <label
                 className='-mt-8 md:flex flex-col font-bold text-gray-800'
-                htmlFor='fecha'
+                htmlFor='date'
               >
                 Fecha
                 <input
                   className='flex w-48 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2'
-                  name='fecha'
+                  name='date'
                   type='date'
-                  required
                 ></input>
               </label>
               <label
                 className='-mt-8 md:flex flex-col font-bold text-gray-800'
-                htmlFor='IDVenta'
+                htmlFor='idSale'
               >
                 ID venta
                 <input
                   className='flex w-20 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2'
-                  name='IDVenta'
+                  name='idSale'
                   type='text'
                   placeholder='#'
-                  required
+                  readOnly
                 ></input>
               </label>
             </div>
@@ -42,25 +61,25 @@ const AddSales = () => {
             <div className='md:flex justify-between mt-2'>
               <label
                 className='flex flex-col font-bold text-gray-800'
-                htmlFor='código'
+                htmlFor='idProduct'
               >
                 Código producto
                 <input
                   className='flex w-32 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2 mr-10'
-                  name='codigo'
-                  type='text'
+                  name='idProduct'
+                  type='number'
                   placeholder='SKU'
                   required
                 ></input>
               </label>
               <label
                 className='flex flex-col font-bold text-gray-800'
-                htmlFor='precio'
+                htmlFor='product_price'
               >
                 Precio
                 <input
                   className='flex w-40 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2'
-                  name='precio'
+                  name='product_price'
                   type='number'
                   placeholder='$'
                   required
@@ -68,12 +87,12 @@ const AddSales = () => {
               </label>
               <label
                 className='flex flex-col font-bold text-gray-800'
-                htmlFor='cantidad'
+                htmlFor='product_quantity'
               >
                 Cantidad
                 <input
                   className='flex w-16 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2'
-                  name='cantidad'
+                  name='product_quantity'
                   type='number'
                   placeholder='#'
                   required
@@ -81,11 +100,14 @@ const AddSales = () => {
               </label>
             </div>
             <div className='flex my-2'>
-              <label className='flex font-bold text-gray-800' htmlFor='total'>
+              <label
+                className='flex font-bold text-gray-800'
+                htmlFor='total_sale'
+              >
                 Total
                 <input
                   className='flex w-40 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2'
-                  name='total'
+                  name='total_sale'
                   type='number'
                   placeholder='$'
                   required
@@ -99,25 +121,25 @@ const AddSales = () => {
             <div className='md:flex my-2'>
               <label
                 className='flex flex-col font-bold text-gray-800'
-                htmlFor='IDCliente'
+                htmlFor='idClient'
               >
                 ID cliente
                 <input
                   className='flex w-40 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2'
-                  name='IDCliente'
-                  type='text'
+                  name='idClient'
+                  type='number'
                   placeholder='ID'
                   required
                 ></input>
               </label>
               <label
                 className='flex flex-col font-bold text-gray-800'
-                htmlFor='nombres'
+                htmlFor='client_name'
               >
                 Nombres
                 <input
                   className='flex w-40 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2'
-                  name='nombres'
+                  name='client_name'
                   type='text'
                   placeholder='Nombres'
                   required
@@ -125,12 +147,12 @@ const AddSales = () => {
               </label>
               <label
                 className='flex flex-col font-bold text-gray-800'
-                htmlFor='apellidos'
+                htmlFor='client_surname'
               >
                 Apellidos
                 <input
                   className='flex w-40 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2'
-                  name='apellidos'
+                  name='client_surname'
                   type='text'
                   placeholder='Apellidos'
                   required
@@ -144,25 +166,25 @@ const AddSales = () => {
             <div className='md:flex mt-2'>
               <label
                 className='flex flex-col font-bold text-gray-800'
-                htmlFor='IDVendedor'
+                htmlFor='idSalesman'
               >
                 ID vendedor
                 <input
                   className='flex w-40 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2'
-                  name='IDVendedor'
-                  type='text'
+                  name='idSalesman'
+                  type='number'
                   placeholder='ID'
                   required
                 ></input>
               </label>
               <label
                 className='flex flex-col font-bold text-gray-800'
-                htmlFor='nombres'
+                htmlFor='salesman_name'
               >
                 Nombres
                 <input
                   className='flex w-40 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2'
-                  name='nombres'
+                  name='salesman_name'
                   type='text'
                   placeholder='Nombres'
                   required
@@ -170,12 +192,12 @@ const AddSales = () => {
               </label>
               <label
                 className='flex flex-col font-bold text-gray-800'
-                htmlFor='apellidos'
+                htmlFor='salesman_surname'
               >
                 Apellidos
                 <input
                   className='flex w-40 bg-gray-50 border border-blue-900 p-1 rounded-lg m-2'
-                  name='apellidos'
+                  name='salesman_surname'
                   type='text'
                   placeholder='Apellidos'
                   required
@@ -189,12 +211,12 @@ const AddSales = () => {
               >
                 Agregar
               </button>
+              <ToastContainer position='bottom-center' autoClose={5000} />
             </div>
           </form>
         </div>
       </div>
     </div>
-
     /*<div className="div-form">
       <form className="flex justify-center w-max padre">
         <div className=" bg-white  flex flex-col form-sales" >
